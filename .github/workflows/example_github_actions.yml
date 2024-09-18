@@ -1,0 +1,45 @@
+name: NombreGitHubAction
+
+# Aquí se aplica cuando queremos que se ejecute el action
+on: 
+  # Se ejecuta cada vez que se haga un push
+  push:
+    branches: [ main ]
+    
+# Conjunto de pasos que se tienen que dar en el action: en paralelo, etc.
+jobs:
+  # Proceso de construcción
+  build:
+    # Se recomienda correr en Linux, más barato. También se podría configurar CPU
+    runs-on: ubuntu-latest
+
+    # Se ha tenido que dar permisos de escritura para que funcion el action de commit.
+    permissions:
+      contents: write
+    # Cada una de las actions que queremos ejecutar. 
+    # 'name' es opcional, es una buena práctica para que sea más visual lo que estamos haciendo.
+    # Con 'uses' se están utilizando actions ya programadas.
+    steps: 
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      # Corre el script que hace la automatización. El archivo que genera el script se guardará en esta sandbox (entorno de pruebas virtual) que genera el sistema.    
+      - name: Run script
+        run: python ./Roadmap/stats.py
+
+      # Action de la comunidad, utilizada para hacer add, commit y push, para guardar el archivo generado en el repositorio. 
+      - name: Commit/Push
+        uses: stefanzweifel/git-auto-commit-action@v5.0.1
+        with: 
+          commit_message: update stats
+          commit_user_name: Gdr18
+          commit_user_email: gador8@gmail.com
+          commit_author: Gádor
+
+      
+      
