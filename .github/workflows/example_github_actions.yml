@@ -4,7 +4,11 @@ name: NombreGitHubAction
 on: 
   # Se ejecuta cada vez que se haga un push
   push:
-    branches: [ main ]
+   branches: [ main ]
+  # Configura cada cuanto se va a ejecutar el script  
+  # schedule:
+    # Se ejecuta cada día a las 0:00
+    # - cron: '0 0 * * *'
     
 # Conjunto de pasos que se tienen que dar en el action: en paralelo, etc.
 jobs:
